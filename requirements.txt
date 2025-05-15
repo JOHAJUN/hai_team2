@@ -1,0 +1,6 @@
+ffmpeg-python==0.2.0
+future==1.0.0
+pytube==15.0.0
+pytubefix==8.13.1
+setuptools==78.1.1
+wheel==0.45.1
