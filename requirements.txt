@@ -4,3 +4,9 @@ pytube==15.0.0
 pytubefix==8.13.1
 setuptools==78.1.1
 wheel==0.45.1
+torch== 2.7.0
+torch-audiomentations==0.12.0
+torch_pitch_shift==1.2.5
+torchaudio==2.7.0
+torchmetrics==1.7.1
+faster-whisper==.1.1
