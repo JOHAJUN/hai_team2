@@ -1,5 +1,7 @@
 from Module.YoutubeDownloader import download_youtube_video
 from Module.Transcription import *
+from Module.LanguagesTasks import extract_highlight_only
+import json
 
 def main():
     url = input("Enter YouTube video URL: ").strip()
@@ -18,6 +20,16 @@ def main():
     
     if transcription:
         print("\nTranscription complete!")
+        print("\n Extracting highlight segments using GPT...")
+        highlighted_transcript = extract_highlight_only(transcription)
+
+        print(f"\n Found {len(highlighted_transcript)} highlight segments:")
+        for h in highlighted_transcript:
+            print(f"▶️ [{h['start']} - {h['end']}] {h['text']}")
+
+        with open("Output/highlight_transcript.json", "w", encoding="utf-8") as f:
+            json.dump(highlighted_transcript, f, indent=2, ensure_ascii=False)
+        
     else:
         print("\nTranscription failed.")
     
