@@ -1,7 +1,11 @@
 from Module.YoutubeDownloader import download_youtube_video
 from Module.Transcription import *
-from Module.LanguagesTasks import extract_highlight_only
+from Module.LanguageTasks import extract_highlight_only
+from dotenv import load_dotenv
 import json
+import os
+
+load_dotenv()
 
 def main():
     url = input("Enter YouTube video URL: ").strip()

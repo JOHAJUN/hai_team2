@@ -1,6 +1,12 @@
-import openai
 import json
 import tiktoken
+import os
+from openai import OpenAI  
+from dotenv import load_dotenv
+
+load_dotenv()
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def count_tokens(text, model="gpt-4"):
     encoding = tiktoken.encoding_for_model(model)
@@ -15,9 +21,8 @@ def extract_highlight_only(transcript, max_tokens=3000, model="gpt-4"):
     formatted_segments = []
     total_tokens = 0
 
-
     for i, seg in enumerate(transcript):
-        line = f"[{seg['start']:.2f} - {seg['end']:.2f}] {seg['text']}"
+        line = f"[{seg.start:.2f} - {seg.end:.2f}] {seg.text}"
         tokens = count_tokens(line, model=model)
         if total_tokens + tokens > max_tokens:
             break
@@ -43,21 +48,24 @@ def extract_highlight_only(transcript, max_tokens=3000, model="gpt-4"):
 """
 
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model=model,
             messages=[
                 {"role": "system", "content": "You are an expert YouTube Shorts editor."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
+            timeout=60  # 60 seconds timeout
         )
 
-        content = response.choices[0].message['content']
+        content = response.choices[0].message.content.strip()
 
-
-        highlights = json.loads(content) if content.strip().startswith("[") else eval(content)
-
-        return highlights
+        try:
+            highlights = json.loads(content)
+            return highlights
+        except json.JSONDecodeError:
+            print("⚠️ GPT 응답이 JSON이 아님. 원본 출력:\n", content)
+            return []
 
     except Exception as e:
         print("❌ GPT highlight extraction failed:", e)
