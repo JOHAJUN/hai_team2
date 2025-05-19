@@ -18,7 +18,8 @@ def main():
         print("\nDownload or merge failed.")
         
     print('\nTranscribing audio...')    
-    transcription, audio = audio_transcribe(audio_path)
+    transcription, audio = audio_transcribe(audio_path) 
+    os.makedirs("Output", exist_ok=True)
     save_transcript_json(transcription, audio)
     save_transcript_srt(transcription, audio)
     
@@ -29,7 +30,7 @@ def main():
 
         print(f"\n Found {len(highlighted_transcript)} highlight segments:")
         for h in highlighted_transcript:
-            print(f"▶️ [{h['start']} - {h['end']}] {h['text']}")
+            print(f"[{h['start']} - {h['end']}]")
 
         with open("Output/highlight_transcript.json", "w", encoding="utf-8") as f:
             json.dump(highlighted_transcript, f, indent=2, ensure_ascii=False)
