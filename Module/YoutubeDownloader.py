@@ -1,5 +1,5 @@
 import os
-from pytube import YouTube
+from pytubefix import YouTube
 import ffmpeg
 from Module.AudioExtractor import convert_m4a_to_wav
 
