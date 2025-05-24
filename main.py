@@ -2,6 +2,7 @@ from Module.YoutubeDownloader import download_youtube_video
 from Module.Transcription import *
 from Module.LanguageTasks import extract_highlight_only
 from Module.VideoClipper import VideoClipper
+from Module.SpeakerTrackingRunner import run_speaker_tracking_on_folder
 from dotenv import load_dotenv
 import json
 import os
@@ -35,14 +36,19 @@ def main():
 
         with open("Output/highlight_transcript.json", "w", encoding="utf-8") as f:
             json.dump(highlighted_transcript, f, indent=2, ensure_ascii=False)
-        print("\n✂️ Clipping video/audio by highlight timestamps...")
+        print("\nClipping video/audio by highlight timestamps...")
         clipper = VideoClipper(input_video_path=merged_path, output_dir="Input")
         clip_list = [
             {"id": f"clip{idx+1:03}", "start": h["start"], "end": h["end"]}
             for idx, h in enumerate(highlighted_transcript)
         ]
         clipper.extract_clips(clip_list)
-        
+        run_speaker_tracking_on_folder(
+            input_dir="Input",
+            output_dir="Output",
+            talknet_path="TalkNet-ASD"
+        )
+            
     else:
         print("\nTranscription failed.")
     
