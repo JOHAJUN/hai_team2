@@ -3,4 +3,6 @@ __pycache__/
 *.pyc
 Input/
 Output/
-TalkNet-ASD/
+TalkNet-ASD/__pycache__/
+TalkNet-ASD/demo/
+TalkNet-ASD/pretrain_TalkSet.model
