@@ -3,6 +3,7 @@ from Module.Transcription import *
 from Module.LanguageTasks import extract_highlight_only
 from Module.VideoClipper import VideoClipper
 from Module.SpeakerTrackingRunner import run_speaker_tracking_on_folder
+from Module.SubtitleGenerator import process_clip_with_subtitles
 from dotenv import load_dotenv
 import json
 import os
@@ -48,6 +49,7 @@ def main():
             output_dir="Output",
             talknet_path="TalkNet-ASD"
         )
+        process_clip_with_subtitles("Input/subtitle.srt", "Output/clip001_labeled.avi", "Output/highlight_transcript.json", "Output/clip001_labeled.srt", "Output/clip001_labeled_subtitled.avi")
             
     else:
         print("\nTranscription failed.")

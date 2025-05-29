@@ -1,4 +1,5 @@
 import json
+import os
 from datetime import timedelta
 from faster_whisper import WhisperModel
 import torch
@@ -50,7 +51,7 @@ def save_transcript_srt(segments, audio_file):
         return f'{hrs:02}:{mins:02}:{secs:02},{millis:03}'
     
     try:
-        srt_path = audio_file.rsplit('.', 1)[0] + '.srt'
+        srt_path = os.path.join("Input", "subtitle.srt")
         
         with open(srt_path, 'w', encoding='utf-8') as sf:
             for index, seg in enumerate(segments, start=1):
